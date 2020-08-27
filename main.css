@@ -6,26 +6,27 @@
 html,
 body {
   height: 100%;
+  margin: 0;
 }
 
-#gameArea {
+#area {
   width: 100%;
   height: 100%;
   background-color: black;
 }
 
-.stick {
+.player {
   width: 12px;
-  height: 85px;
+  height: 100px;
   background-color: antiquewhite;
   position: absolute;
 }
 
-#stickLeft {
+#leftPlayer {
   left: 0;
 }
 
-#stickRight {
+#rightPlayer {
   right: 0;
 }
 
@@ -53,18 +54,18 @@ body {
   margin: auto;
 }
 
-#scoreLeft,
-#scoreRight {
+#leftScore,
+#rightScore {
   color: antiquewhite;
   font-family: sans-serif;
   font-size: 400%;
   margin-top: 5%;
 }
 
-#scoreLeft {
+#leftScore {
   float: left;
 }
 
-#scoreRight {
+#rightScore {
   float: right;
 }

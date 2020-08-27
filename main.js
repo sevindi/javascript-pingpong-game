@@ -1,12 +1,22 @@
-let stickLeft = document.getElementById("stickLeft");
-let stickRight = document.getElementById("stickRight");
+let leftPlayer = document.getElementById("leftPlayer");
+let rightPlayer = document.getElementById("rightPlayer");
 
-stickLeft.style.top = window.innerHeight / 2 + "px";
-stickRight.style.top = windows.innerHeight / 2 + "px";
+leftPlayer.style.top = window.innerHeight / 2 + "px";
+rightPlayer.style.top = window.innerHeight / 2 + "px";
 
-document.onkeydown = function (k) {
-  switch (k.keyCode) {
+document.onkeydown = function (e) {
+  switch (e.keyCode) {
     case 87:
-      stickLeft.style.top = +10;
+      console.log("w");
+      break;
+    case 83:
+      console.log("s");
+      break;
+    case 38:
+      console.log("up");
+      break;
+    case 40:
+      console.log("down");
+      break;
   }
 };
