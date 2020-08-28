@@ -1,22 +1,44 @@
 let leftPlayer = document.getElementById("leftPlayer");
 let rightPlayer = document.getElementById("rightPlayer");
 
-leftPlayer.style.top = window.innerHeight / 2 + "px";
-rightPlayer.style.top = window.innerHeight / 2 + "px";
+let ball = document.getElementById("ball");
 
-document.onkeydown = function (e) {
-  switch (e.keyCode) {
+let leftScore = document.getElementById("leftScore");
+let rightScore = document.getElementById("rightScore");
+
+let innerHeight = window.innerHeight;
+let innerWidth = window.innerWidth;
+
+function addPx(num) {
+  return num + "px";
+}
+
+leftPlayer.style.top = innerHeight / 2 + "px";
+rightPlayer.style.top = innerHeight / 2 + "px";
+
+document.onkeydown = function (k) {
+  switch (k.keyCode) {
     case 87:
-      console.log("w");
+      if (parseInt(leftPlayer.style.top) <= 0) {
+        leftPlayer.style.top = leftPlayer.style.top;
+      } else leftPlayer.style.top = parseInt(leftPlayer.style.top) - 30 + "px";
       break;
     case 83:
-      console.log("s");
+      if (parseInt(leftPlayer.style.top) + 150 >= innerHeight) {
+        leftPlayer.style.top = leftPlayer.style.top;
+      } else leftPlayer.style.top = parseInt(leftPlayer.style.top) + 30 + "px";
       break;
     case 38:
-      console.log("up");
+      if (parseInt(rightPlayer.style.top) <= 0) {
+        rightPlayer.style.top = rightPlayer.style.top;
+      } else
+        rightPlayer.style.top = parseInt(rightPlayer.style.top) - 30 + "px";
       break;
     case 40:
-      console.log("down");
+      if (parseInt(rightPlayer.style.top) + 150 >= innerHeight) {
+        rightPlayer.style.top = rightPlayer.style.top;
+      } else
+        rightPlayer.style.top = parseInt(rightPlayer.style.top) + 30 + "px";
       break;
   }
 };
