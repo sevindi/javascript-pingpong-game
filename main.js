@@ -1,44 +1,73 @@
-let leftPlayer = document.getElementById("leftPlayer");
-let rightPlayer = document.getElementById("rightPlayer");
+// main declarations
+let rightPaddle = document.getElementById("rightPaddle");
+let leftPaddle = document.getElementById("leftPaddle");
 
 let ball = document.getElementById("ball");
 
 let leftScore = document.getElementById("leftScore");
 let rightScore = document.getElementById("rightScore");
+let score = document.getElementById("score");
 
-let innerHeight = window.innerHeight;
-let innerWidth = window.innerWidth;
+let width = window.innerWidth;
+let height = window.innerHeight;
 
-function addPx(num) {
-  return num + "px";
+let px = "px";
+
+let paddleHeight = 200;
+let paddleWidth = 25;
+let paddleSpeed = 5;
+
+// function to delete px for calculations
+
+function rmv(size) {
+  return size.replace("px", "");
 }
 
-leftPlayer.style.top = innerHeight / 2 + "px";
-rightPlayer.style.top = innerHeight / 2 + "px";
-
-document.onkeydown = function (k) {
-  switch (k.keyCode) {
-    case 87:
-      if (parseInt(leftPlayer.style.top) <= 0) {
-        leftPlayer.style.top = leftPlayer.style.top;
-      } else leftPlayer.style.top = parseInt(leftPlayer.style.top) - 30 + "px";
-      break;
-    case 83:
-      if (parseInt(leftPlayer.style.top) + 150 >= innerHeight) {
-        leftPlayer.style.top = leftPlayer.style.top;
-      } else leftPlayer.style.top = parseInt(leftPlayer.style.top) + 30 + "px";
-      break;
-    case 38:
-      if (parseInt(rightPlayer.style.top) <= 0) {
-        rightPlayer.style.top = rightPlayer.style.top;
-      } else
-        rightPlayer.style.top = parseInt(rightPlayer.style.top) - 30 + "px";
-      break;
-    case 40:
-      if (parseInt(rightPlayer.style.top) + 150 >= innerHeight) {
-        rightPlayer.style.top = rightPlayer.style.top;
-      } else
-        rightPlayer.style.top = parseInt(rightPlayer.style.top) + 30 + "px";
-      break;
-  }
+// track key strokes and record in an array in order to use more than one key at a time
+let key = [];
+onkeydown = onkeyup = function (e) {
+  key[e.keyCode] = e.type == "keydown";
 };
+
+// center paddles vertically
+leftPaddle.style.top = height / 2 - 100 + px;
+rightPaddle.style.top = height / 2 - 100 + px;
+
+// move paddle divs according to keystrokes
+function keyPressed() {
+  if (key[87]) {
+    if (rmv(leftPaddle.style.top) - paddleSpeed <= 0) {
+      leftPaddle.style.top = 0 + px;
+    } else {
+      leftPaddle.style.top = rmv(leftPaddle.style.top) - paddleSpeed + px;
+    }
+  }
+
+  if (key[83]) {
+    if (rmv(leftPaddle.style.top) > height - paddleHeight) {
+      leftPaddle.style.top = height - paddleHeight;
+    } else {
+      leftPaddle.style.top = rmv(leftPaddle.style.top) + paddleSpeed + px;
+    }
+  }
+
+  if (key[38]) {
+    if (rmv(rightPaddle.style.top) - paddleSpeed <= 0) {
+      rightPaddle.style.top = 0 + px;
+    } else {
+      rightPaddle.style.top = rmv(rightPaddle.style.top) - paddleSpeed + px;
+    }
+  }
+
+  if (key[40]) {
+    if (rmv(rightPaddle.style.top) > height - paddleHeight) {
+      rightPaddle.style.top = height - paddleHeight;
+    } else {
+      rightPaddle.style.top = rmv(rightPaddle.style.top) + paddleSpeed + px;
+    }
+  }
+}
+
+setInterval(function () {
+  keyPressed();
+}, 10);

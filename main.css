@@ -3,32 +3,25 @@
   padding: 0;
 }
 
-html,
 body {
   height: 100%;
-  margin: 0;
-  padding: 0;
+  width: 100%;
+  background-color: black;
   overflow: hidden;
 }
 
-#area {
-  width: 100%;
-  height: 100%;
-  background-color: black;
-}
-
-.player {
+.paddle {
   width: 15px;
-  height: 150px;
-  background-color: antiquewhite;
+  height: 200px;
+  background-color: white;
 }
 
-#leftPlayer {
+#leftPaddle {
   float: left;
   position: relative;
 }
 
-#rightPlayer {
+#rightPaddle {
   float: right;
   position: relative;
 }
@@ -36,7 +29,7 @@ body {
 #ball {
   width: 20px;
   height: 20px;
-  background-color: antiquewhite;
+  background-color: white;
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -45,8 +38,8 @@ body {
 
 #line {
   width: 0;
-  height: 99%;
-  border: 1px dashed antiquewhite;
+  height: 100%;
+  border: 1px dashed white;
   position: absolute;
   left: 50%;
 }
@@ -55,13 +48,13 @@ body {
   width: 50%;
   height: 20%;
   margin: auto;
+  text-align: center;
 }
 
 #leftScore,
 #rightScore {
-  color: antiquewhite;
-  font-family: sans-serif;
-  font-size: 400%;
+  color: white;
+  font-size: 750%;
   margin-top: 5%;
 }
 
@@ -71,4 +64,14 @@ body {
 
 #rightScore {
   float: right;
+}
+
+#score {
+  display: inline-block;
+  position: absolute;
+  left: 40%;
+  top: 5%;
+  font-size: 750%;
+  transition: 0.5s all;
+  z-index: -1;
 }
