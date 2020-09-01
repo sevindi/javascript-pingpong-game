@@ -67,11 +67,11 @@ body {
 }
 
 #score {
-  display: inline-block;
-  position: absolute;
-  left: 40%;
-  top: 5%;
+  display: inline-flex;
+  width:100%;
   font-size: 750%;
   transition: 0.5s all;
   z-index: -1;
+  margin-top:-5%;
+  justify-content:center;
 }
