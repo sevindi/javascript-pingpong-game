@@ -25,40 +25,40 @@ onkeyup = function keySaver(e) {
   key[e.key] = e.type === 'keydown';
 };
 
+// paddle down function
+const movePaddleDown = (side) => {
+  const paddle = side;
+  if (num(paddle.style.top) + paddleSpeed > height - paddleHeight) {
+    paddle.style.top = height - paddleHeight + px;
+  } else paddle.style.top = num(paddle.style.top) + paddleSpeed + px;
+};
+
+// paddle up function
+const movePaddleUp = (side) => {
+  const paddle = side;
+  if (num(paddle.style.top) - paddleSpeed <= 0) {
+    paddle.style.top = 0 + px;
+  } else paddle.style.top = num(paddle.style.top) - paddleSpeed + px;
+};
+
+// handle keystrokes
+const keyPress = () => {
+  // moves paddle up until border when w key pressed
+  if (key.w) { movePaddleUp(leftPaddle); }
+
+  // moves paddle down until border when s key pressed
+  if (key.s) { movePaddleDown(leftPaddle); }
+
+  // moves paddle down until border when arrowup key pressed
+  if (key.ArrowUp) { movePaddleUp(rightPaddle); }
+
+  // moves paddle down until border when arrowdown key pressed
+  if (key.ArrowDown) { movePaddleDown(rightPaddle); }
+};
+
 // center paddles vertically
 leftPaddle.style.top = height / 2 - 100 + px;
 rightPaddle.style.top = height / 2 - 100 + px;
-
-// move paddle divs according to keystrokes
-const keyPress = () => {
-  // moves paddle up until border when w key pressed
-  if (key.w) {
-    if (num(leftPaddle.style.top) - paddleSpeed <= 0) {
-      leftPaddle.style.top = 0 + px;
-    } else leftPaddle.style.top = num(leftPaddle.style.top) - paddleSpeed + px;
-  }
-
-  // moves paddle down until border when s key pressed
-  if (key.s) {
-    if (num(leftPaddle.style.top) + paddleSpeed > height - paddleHeight) {
-      leftPaddle.style.top = height - paddleHeight + px;
-    } else leftPaddle.style.top = num(leftPaddle.style.top) + paddleSpeed + px;
-  }
-
-  // moves paddle down until border when arrowup key pressed
-  if (key.ArrowUp) {
-    if (num(rightPaddle.style.top) - paddleSpeed <= 0) {
-      rightPaddle.style.top = 0 + px;
-    } else rightPaddle.style.top = num(rightPaddle.style.top) - paddleSpeed + px;
-  }
-
-  // moves paddle down until border when arrowdown key pressed
-  if (key.ArrowDown) {
-    if (num(rightPaddle.style.top) + paddleSpeed > height - paddleHeight) {
-      rightPaddle.style.top = height - paddleHeight + px;
-    } else rightPaddle.style.top = num(rightPaddle.style.top) + paddleSpeed + px;
-  }
-};
 
 const leftScore = document.getElementById('leftScore');
 const rightScore = document.getElementById('rightScore');
@@ -79,7 +79,7 @@ const scored = (loc) => {
   ballSpeedX *= -1;
 };
 
-// 
+//
 let ballSpeedX = 6;
 let ballSpeedY = 2.5;
 
@@ -97,7 +97,8 @@ const ballMovement = () => {
 
   // right side bounce and score
   if (num(ball.style.left) >= width - paddleWidth - ballRadius) {
-    if (num(rightPaddle.style.top) <= num(ball.style.top) + ballRadius
+    if (
+      num(rightPaddle.style.top) <= num(ball.style.top) + ballRadius
       && num(rightPaddle.style.top) + paddleHeight >= num(ball.style.top)
     ) {
       ballSpeedX *= -1;
@@ -106,7 +107,8 @@ const ballMovement = () => {
 
   // left side bounce and score
   if (num(ball.style.left) <= paddleWidth) {
-    if (num(leftPaddle.style.top) <= num(ball.style.top) + ballRadius
+    if (
+      num(leftPaddle.style.top) <= num(ball.style.top) + ballRadius
       && num(leftPaddle.style.top) + paddleHeight - ballRadius >= num(ball.style.top)
     ) {
       ballSpeedX *= -1;
