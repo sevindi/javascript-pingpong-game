@@ -36,42 +36,26 @@ body {
   left: 50%;
 }
 
-#line {
-  width: 0;
-  height: 100%;
-  border: 1px dashed white;
-  position: absolute;
-  left: 50%;
-}
 
 #scoreboard {
   width: 50%;
   height: 20%;
   margin: auto;
   text-align: center;
-}
-
-#leftScore,
-#rightScore {
-  color: white;
   font-size: 750%;
-  margin-top: 5%;
 }
 
 #leftScore {
+  color: white;
   float: left;
 }
 
 #rightScore {
+  color: white;
   float: right;
 }
 
 #score {
-  display: inline-flex;
-  width:100%;
-  font-size: 750%;
   transition: 0.5s all;
   z-index: -1;
-  margin-top:-5%;
-  justify-content:center;
 }

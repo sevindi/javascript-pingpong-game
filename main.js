@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // main declarations
 const rightPaddle = document.getElementById('rightPaddle');
 const leftPaddle = document.getElementById('leftPaddle');
@@ -17,25 +18,23 @@ const ballRadius = 20;
 const num = (size) => Number(size.replace('px', ''));
 
 // track key strokes and record in an array in order to use more than one key at a time
-const key = [];
-onkeydown = function keySaver(e) {
-  key[e.key] = e.type === 'keydown';
+const keystore = [];
+onkeydown = function keySaver(val) {
+  keystore[val.key] = val.type === 'keydown';
 };
-onkeyup = function keySaver(e) {
-  key[e.key] = e.type === 'keydown';
+onkeyup = function keySaver(val) {
+  keystore[val.key] = val.type === 'keydown';
 };
 
 // paddle down function
-const movePaddleDown = (side) => {
-  const paddle = side;
+const movePaddleDown = (paddle) => {
   if (num(paddle.style.top) + paddleSpeed > height - paddleHeight) {
     paddle.style.top = height - paddleHeight + px;
   } else paddle.style.top = num(paddle.style.top) + paddleSpeed + px;
 };
 
 // paddle up function
-const movePaddleUp = (side) => {
-  const paddle = side;
+const movePaddleUp = (paddle) => {
   if (num(paddle.style.top) - paddleSpeed <= 0) {
     paddle.style.top = 0 + px;
   } else paddle.style.top = num(paddle.style.top) - paddleSpeed + px;
@@ -44,16 +43,16 @@ const movePaddleUp = (side) => {
 // handle keystrokes
 const keyPress = () => {
   // moves paddle up until border when w key pressed
-  if (key.w) { movePaddleUp(leftPaddle); }
+  if (keystore.w) movePaddleUp(leftPaddle);
 
   // moves paddle down until border when s key pressed
-  if (key.s) { movePaddleDown(leftPaddle); }
+  if (keystore.s) movePaddleDown(leftPaddle);
 
   // moves paddle down until border when arrowup key pressed
-  if (key.ArrowUp) { movePaddleUp(rightPaddle); }
+  if (keystore.ArrowUp) movePaddleUp(rightPaddle);
 
   // moves paddle down until border when arrowdown key pressed
-  if (key.ArrowDown) { movePaddleDown(rightPaddle); }
+  if (keystore.ArrowDown) movePaddleDown(rightPaddle);
 };
 
 // center paddles vertically
@@ -62,6 +61,12 @@ rightPaddle.style.top = height / 2 - 100 + px;
 
 const leftScore = document.getElementById('leftScore');
 const rightScore = document.getElementById('rightScore');
+
+// ball speed in both directions
+let ballSpeedX = 4;
+let ballSpeedY = 2.5;
+
+ball.style.left = width / 2 + px;
 
 // tracks scores for each player and shows text
 const scored = (loc) => {
@@ -72,18 +77,12 @@ const scored = (loc) => {
   }, 1000);
 
   if (loc === 'left') rightScore.innerHTML = Number(rightScore.innerHTML) + 1;
-  else leftScore.innerHTML = Number(leftScore.innerHTML) + 1;
+  else if (loc === 'right') leftScore.innerHTML = Number(leftScore.innerHTML) + 1;
 
   // returns ball to center and changes its direction
   ball.style.left = width / 2 + px;
   ballSpeedX *= -1;
 };
-
-//
-let ballSpeedX = 6;
-let ballSpeedY = 2.5;
-
-ball.style.left = width / 2 + px;
 
 const ballMovement = () => {
   // initial movement formula for the ball
@@ -91,12 +90,12 @@ const ballMovement = () => {
   ball.style.top = num(ball.style.top) + ballSpeedY + px;
 
   // bounce from upper and lower borders
-  if (num(ball.style.top) + 20 > height || num(ball.style.top) < 0) {
+  if (num(ball.style.top) + ballRadius > height || num(ball.style.top) < 0) {
     ballSpeedY *= -1;
   }
 
   // right side bounce and score
-  if (num(ball.style.left) >= width - paddleWidth - ballRadius) {
+  if (num(ball.style.left) + ballRadius>= width - paddleWidth) {
     if (
       num(rightPaddle.style.top) <= num(ball.style.top) + ballRadius
       && num(rightPaddle.style.top) + paddleHeight >= num(ball.style.top)
@@ -109,8 +108,7 @@ const ballMovement = () => {
   if (num(ball.style.left) <= paddleWidth) {
     if (
       num(leftPaddle.style.top) <= num(ball.style.top) + ballRadius
-      && num(leftPaddle.style.top) + paddleHeight - ballRadius >= num(ball.style.top)
-    ) {
+      && num(leftPaddle.style.top) + paddleHeight >= num(ball.style.top)) {
       ballSpeedX *= -1;
     } else if (num(ball.style.left) <= 0) scored('right');
   }
