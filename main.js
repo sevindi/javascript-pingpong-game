@@ -63,10 +63,15 @@ const leftScore = document.getElementById('leftScore');
 const rightScore = document.getElementById('rightScore');
 
 // ball speed in both directions
-let ballSpeedX = 4;
-let ballSpeedY = 2.5;
+let speedX = 6;
+let speedY = 2.5;
 
 ball.style.left = width / 2 + px;
+
+// gravity effect
+setInterval(() => {
+  speedY += 0.10;
+}, 200);
 
 // tracks scores for each player and shows text
 const scored = (loc) => {
@@ -79,19 +84,20 @@ const scored = (loc) => {
   if (loc === 'left') rightScore.innerHTML = Number(rightScore.innerHTML) + 1;
   else if (loc === 'right') leftScore.innerHTML = Number(leftScore.innerHTML) + 1;
 
-  // returns ball to center and changes its direction
+  // returns ball to center and changes its direction and reset Y-axis speed to default
   ball.style.left = width / 2 + px;
-  ballSpeedX *= -1;
+  speedX *= -1;
+  speedY = 3;
 };
 
 const ballMovement = () => {
   // initial movement formula for the ball
-  ball.style.left = num(ball.style.left) + ballSpeedX + px;
-  ball.style.top = num(ball.style.top) + ballSpeedY + px;
+  ball.style.left = num(ball.style.left) + speedX + px;
+  ball.style.top = num(ball.style.top) + speedY + px;
 
   // bounce from upper and lower borders
   if (num(ball.style.top) + ballRadius > height || num(ball.style.top) < 0) {
-    ballSpeedY *= -1;
+    speedY *= -1;
   }
 
   // right side bounce and score
@@ -100,7 +106,7 @@ const ballMovement = () => {
       num(rightPaddle.style.top) <= num(ball.style.top) + ballRadius
       && num(rightPaddle.style.top) + paddleHeight >= num(ball.style.top)
     ) {
-      ballSpeedX *= -1;
+      speedX *= -1;
     } else if (num(ball.style.left) >= width - ballRadius) scored('left');
   }
 
@@ -109,11 +115,11 @@ const ballMovement = () => {
     if (
       num(leftPaddle.style.top) <= num(ball.style.top) + ballRadius
       && num(leftPaddle.style.top) + paddleHeight >= num(ball.style.top)) {
-      ballSpeedX *= -1;
+      speedX *= -1;
     } else if (num(ball.style.left) <= 0) scored('right');
   }
 
-  // start ball movement at beginning
+  // start ball movement
   setTimeout(() => {
     ballMovement();
   }, 1);
