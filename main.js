@@ -63,15 +63,15 @@ const leftScore = document.getElementById('leftScore');
 const rightScore = document.getElementById('rightScore');
 
 // ball speed in both directions
-let speedX = 6;
-let speedY = 2.5;
+let speedX = 4.5;
+let speedY = 1.5;
 
 ball.style.left = width / 2 + px;
 
 // gravity effect
 setInterval(() => {
-  speedY += 0.10;
-}, 200);
+  speedY += 0.125;
+}, 50);
 
 // tracks scores for each player and shows text
 const scored = (loc) => {
@@ -86,8 +86,9 @@ const scored = (loc) => {
 
   // returns ball to center and changes its direction and reset Y-axis speed to default
   ball.style.left = width / 2 + px;
+  ball.style.top = 0 + px;
   speedX *= -1;
-  speedY = 3;
+  speedY = 1.5;
 };
 
 const ballMovement = () => {
