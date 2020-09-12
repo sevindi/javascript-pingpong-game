@@ -56,6 +56,7 @@ body {
 }
 
 #score {
-  transition: 0.5s all;
   z-index: -1;
+  visibility: hidden;
+  color: white;
 }

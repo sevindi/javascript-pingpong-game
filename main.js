@@ -11,11 +11,15 @@ const px = 'px';
 
 const paddleHeight = 200;
 const paddleWidth = 15;
-const paddleSpeed = 7.5;
+const paddleSpeed = 5;
 const ballRadius = 20;
 
 // function to delete px for calculations
 const num = (size) => Number(size.replace('px', ''));
+
+// positive to negative and negative to positive functions
+const neg = (int) => -Math.abs(int);
+const pos = (int) => Math.abs(int);
 
 // track key strokes and record in an array in order to use more than one key at a time
 const keystore = [];
@@ -42,16 +46,16 @@ const movePaddleUp = (paddle) => {
 
 // handle keystrokes
 const keyPress = () => {
-  // moves paddle up until border when w key pressed
+  // moves paddle up when w key pressed
   if (keystore.w) movePaddleUp(leftPaddle);
 
-  // moves paddle down until border when s key pressed
+  // moves paddle down when s key pressed
   if (keystore.s) movePaddleDown(leftPaddle);
 
-  // moves paddle down until border when arrowup key pressed
+  // moves paddle down when arrowup key pressed
   if (keystore.ArrowUp) movePaddleUp(rightPaddle);
 
-  // moves paddle down until border when arrowdown key pressed
+  // moves paddle down when arrowdown key pressed
   if (keystore.ArrowDown) movePaddleDown(rightPaddle);
 };
 
@@ -63,22 +67,22 @@ const leftScore = document.getElementById('leftScore');
 const rightScore = document.getElementById('rightScore');
 
 // ball speed in both directions
-let speedX = 4.5;
+let speedX = 4;
 let speedY = 1.5;
 
 ball.style.left = width / 2 + px;
 
 // gravity effect
 setInterval(() => {
-  speedY += 0.125;
-}, 50);
+  speedY += 0.01;
+}, 10);
 
 // tracks scores for each player and shows text
 const scored = (loc) => {
-  score.style.color = 'white';
+  score.style.visibility = 'visible';
 
   setTimeout(() => {
-    score.style.color = 'black';
+    score.style.visibility = 'hidden';
   }, 1000);
 
   if (loc === 'left') rightScore.innerHTML = Number(rightScore.innerHTML) + 1;
@@ -88,11 +92,11 @@ const scored = (loc) => {
   ball.style.left = width / 2 + px;
   ball.style.top = 0 + px;
   speedX *= -1;
-  speedY = 1.5;
+  speedY = 2;
 };
 
 const ballMovement = () => {
-  // initial movement formula for the ball
+  // movement formula for the ball
   ball.style.left = num(ball.style.left) + speedX + px;
   ball.style.top = num(ball.style.top) + speedY + px;
 
@@ -102,11 +106,22 @@ const ballMovement = () => {
   }
 
   // right side bounce and score
-  if (num(ball.style.left) + ballRadius>= width - paddleWidth) {
+  if (num(ball.style.left) + ballRadius >= width - paddleWidth) {
     if (
+      // if ball hits the upper half of the paddle
       num(rightPaddle.style.top) <= num(ball.style.top) + ballRadius
+      && num(rightPaddle.style.top) + (paddleHeight / 2) >= num(ball.style.top)
+    ) {
+      // direct ball to the top
+      speedY = neg(speedY);
+      speedX *= -1;
+    } else if (
+      // if ball hits the lower half of the paddle
+      num(rightPaddle.style.top) + (paddleHeight / 2) <= num(ball.style.top)
       && num(rightPaddle.style.top) + paddleHeight >= num(ball.style.top)
     ) {
+      // direct ball to the bottom
+      speedY = pos(speedY);
       speedX *= -1;
     } else if (num(ball.style.left) >= width - ballRadius) scored('left');
   }
@@ -114,21 +129,24 @@ const ballMovement = () => {
   // left side bounce and score
   if (num(ball.style.left) <= paddleWidth) {
     if (
+      // if ball hits the upper half of the paddle
       num(leftPaddle.style.top) <= num(ball.style.top) + ballRadius
-      && num(leftPaddle.style.top) + paddleHeight >= num(ball.style.top)) {
+      && num(leftPaddle.style.top) + (paddleHeight / 2) >= num(ball.style.top)) {
+      // direct ball to the top
+      speedY = neg(speedY);
+      speedX *= -1;
+    } else if (
+      // if ball hits the upper half of the paddle
+      num(leftPaddle.style.top) + (paddleHeight / 2) <= num(ball.style.top)
+      && num(leftPaddle.style.top) + paddleHeight >= num(ball.style.top)
+    ) {
+      // direct ball to the bottom
+      speedY = pos(speedY);
       speedX *= -1;
     } else if (num(ball.style.left) <= 0) scored('right');
   }
-
-  // start ball movement
-  setTimeout(() => {
-    ballMovement();
-  }, 1);
 };
 
-// continuously run keyPress function to track pressed keys
-setInterval(() => {
-  keyPress();
-}, 10);
-
-ballMovement();
+// continuously run keyPress and ballMovement functions
+setInterval(keyPress, 5);
+setInterval(ballMovement, 1);
