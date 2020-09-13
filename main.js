@@ -4,6 +4,8 @@ const rightPaddle = document.getElementById('rightPaddle');
 const leftPaddle = document.getElementById('leftPaddle');
 const ball = document.getElementById('ball');
 const score = document.getElementById('score');
+const leftScore = document.getElementById('leftScore');
+const rightScore = document.getElementById('rightScore');
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -11,7 +13,7 @@ const px = 'px';
 
 const paddleHeight = 200;
 const paddleWidth = 15;
-const paddleSpeed = 5;
+const paddleSpeed = 4;
 const ballRadius = 20;
 
 // function to delete px for calculations
@@ -46,12 +48,6 @@ const movePaddleUp = (paddle) => {
 
 // handle keystrokes
 const keyPress = () => {
-  // moves paddle up when w key pressed
-  if (keystore.w) movePaddleUp(leftPaddle);
-
-  // moves paddle down when s key pressed
-  if (keystore.s) movePaddleDown(leftPaddle);
-
   // moves paddle down when arrowup key pressed
   if (keystore.ArrowUp) movePaddleUp(rightPaddle);
 
@@ -59,23 +55,24 @@ const keyPress = () => {
   if (keystore.ArrowDown) movePaddleDown(rightPaddle);
 };
 
-// center paddles vertically
+// ai movement
+const aiMovement = () => {
+  if (num(ball.style.left) < width / 2) {
+    if (num(leftPaddle.style.top) + (paddleHeight / 2) <= num(ball.style.top)) {
+      movePaddleDown(leftPaddle);
+    } else movePaddleUp(leftPaddle);
+  }
+};
+
+// initial positions of paddles and ball
 leftPaddle.style.top = height / 2 - 100 + px;
 rightPaddle.style.top = height / 2 - 100 + px;
-
-const leftScore = document.getElementById('leftScore');
-const rightScore = document.getElementById('rightScore');
+ball.style.left = width / 2 + px;
+ball.style.top = height / 2 - 100 + px;
 
 // ball speed in both directions
-let speedX = 4;
-let speedY = 1.5;
-
-ball.style.left = width / 2 + px;
-
-// gravity effect
-setInterval(() => {
-  speedY += 0.01;
-}, 10);
+let speedX = 5;
+let speedY = 2;
 
 // tracks scores for each player and shows text
 const scored = (loc) => {
@@ -88,11 +85,12 @@ const scored = (loc) => {
   if (loc === 'left') rightScore.innerHTML = Number(rightScore.innerHTML) + 1;
   else if (loc === 'right') leftScore.innerHTML = Number(leftScore.innerHTML) + 1;
 
-  // returns ball to center and changes its direction and reset Y-axis speed to default
+  // reset positions
+  leftPaddle.style.top = height / 2 - 100 + px;
+  rightPaddle.style.top = height / 2 - 100 + px;
   ball.style.left = width / 2 + px;
-  ball.style.top = 0 + px;
+  ball.style.top = height / 2 - 100 + px;
   speedX *= -1;
-  speedY = 2;
 };
 
 const ballMovement = () => {
@@ -123,7 +121,7 @@ const ballMovement = () => {
       // direct ball to the bottom
       speedY = pos(speedY);
       speedX *= -1;
-    } else if (num(ball.style.left) >= width - ballRadius) scored('left');
+    } else if (num(ball.style.left) >= width - ballRadius) scored('right');
   }
 
   // left side bounce and score
@@ -143,10 +141,11 @@ const ballMovement = () => {
       // direct ball to the bottom
       speedY = pos(speedY);
       speedX *= -1;
-    } else if (num(ball.style.left) <= 0) scored('right');
+    } else if (num(ball.style.left) <= 0) scored('left');
   }
 };
 
 // continuously run keyPress and ballMovement functions
 setInterval(keyPress, 5);
+setInterval(aiMovement, 5);
 setInterval(ballMovement, 1);
