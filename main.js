@@ -71,8 +71,8 @@ ball.style.left = width / 2 + px;
 ball.style.top = height / 2 - 100 + px;
 
 // ball speed in both directions
-let speedX = 5;
-let speedY = 2;
+let speedX = 4.5;
+let speedY = 4;
 
 // tracks scores for each player and shows text
 const scored = (loc) => {

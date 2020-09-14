@@ -31,9 +31,10 @@ body {
   height: 20px;
   background-color: white;
   border-radius: 50%;
-  position: absolute;
+  position: relative;
   top: 45%;
   left: 50%;
+  z-index: 1;
 }
 
 
