@@ -147,5 +147,5 @@ const ballMovement = () => {
 
 // continuously run keyPress and ballMovement functions
 setInterval(keyPress, 5);
-setInterval(aiMovement, 10);
+setInterval(aiMovement, 7.5);
 setInterval(ballMovement, 1);
