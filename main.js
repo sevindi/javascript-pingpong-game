@@ -6,6 +6,12 @@ const ball = document.getElementById('ball');
 const score = document.getElementById('score');
 const leftScore = document.getElementById('leftScore');
 const rightScore = document.getElementById('rightScore');
+const buttons = document.querySelector('.buttons');
+const easy = document.getElementById('easy');
+const medium = document.getElementById('medium');
+const hard = document.getElementById('hard');
+const play = document.getElementById('play');
+const pause = document.getElementById('pause');
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -33,49 +39,47 @@ onkeyup = function keySaver(val) {
 };
 
 // paddle down function
-const movePaddleDown = (paddle) => {
+function movePaddleDown(paddle) {
   if (num(paddle.style.top) + paddleSpeed > height - paddleHeight) {
     paddle.style.top = height - paddleHeight + px;
   } else paddle.style.top = num(paddle.style.top) + paddleSpeed + px;
-};
+}
 
 // paddle up function
-const movePaddleUp = (paddle) => {
+function movePaddleUp(paddle) {
   if (num(paddle.style.top) - paddleSpeed <= 0) {
     paddle.style.top = 0 + px;
   } else paddle.style.top = num(paddle.style.top) - paddleSpeed + px;
-};
+}
 
 // handle keystrokes
-const keyPress = () => {
+function keyPress() {
   // moves paddle down when arrowup key pressed
   if (keystore.ArrowUp) movePaddleUp(rightPaddle);
 
   // moves paddle down when arrowdown key pressed
   if (keystore.ArrowDown) movePaddleDown(rightPaddle);
-};
+}
 
 // ai movement
-const aiMovement = () => {
+function aiMovement() {
   if (num(ball.style.left) < width / 2) {
     if (num(leftPaddle.style.top) + (paddleHeight / 2) <= num(ball.style.top)) {
       movePaddleDown(leftPaddle);
     } else movePaddleUp(leftPaddle);
   }
-};
+}
 
 // initial positions of paddles and ball
 leftPaddle.style.top = height / 2 - 100 + px;
 rightPaddle.style.top = height / 2 - 100 + px;
-ball.style.left = width / 2 + px;
-ball.style.top = height / 2 - 100 + px;
 
 // ball speed in both directions
-let speedX = 3.5;
-let speedY = 3.5;
+let speedX;
+let speedY;
 
 // tracks scores for each player and shows text
-const scored = (loc) => {
+function scored(loc) {
   score.style.visibility = 'visible';
 
   setTimeout(() => {
@@ -91,9 +95,9 @@ const scored = (loc) => {
   ball.style.left = width / 2 + px;
   ball.style.top = height / 2 - 100 + px;
   speedX *= -1;
-};
+}
 
-const ballMovement = () => {
+function ballMovement() {
   // movement formula for the ball
   ball.style.left = num(ball.style.left) + speedX + px;
   ball.style.top = num(ball.style.top) + speedY + px;
@@ -143,9 +147,35 @@ const ballMovement = () => {
       speedX *= -1;
     } else if (num(ball.style.left) <= 0) scored('left');
   }
-};
+}
 
-// continuously run keyPress and ballMovement functions
-setInterval(keyPress, 5);
-setInterval(aiMovement, 7.5);
-setInterval(ballMovement, 1);
+// setting difficulty settings
+easy.addEventListener('click', () => {
+  speedX = 4;
+  speedY = 4;
+});
+medium.addEventListener('click', () => {
+  speedX = 5;
+  speedY = 4;
+});
+hard.addEventListener('click', () => {
+  speedX = 6;
+  speedY = 4;
+});
+
+play.addEventListener('click', () => {
+  const keyInterval = setInterval(keyPress, 5);
+  const aiInterval = setInterval(aiMovement, 5);
+  const ballInterval = setInterval(ballMovement, 1);
+  buttons.style.visibility = 'hidden';
+  play.style.visibility = 'hidden';
+  pause.style.visibility = 'visible';
+  pause.addEventListener('click', () => {
+    clearInterval(keyInterval);
+    clearInterval(aiInterval);
+    clearInterval(ballInterval);
+    buttons.style.visibility = 'visible';
+    play.style.visibility = 'visible';
+    pause.style.visibility = 'hidden';
+  });
+});

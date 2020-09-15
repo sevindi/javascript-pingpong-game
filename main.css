@@ -4,8 +4,8 @@
 }
 
 body {
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
+  min-width: 100vw;
   background-color: black;
   overflow: hidden;
 }
@@ -31,10 +31,9 @@ body {
   height: 20px;
   background-color: white;
   border-radius: 50%;
-  position: relative;
-  top: 45%;
-  left: 50%;
-  z-index: 1;
+  position: absolute;
+  top: 30%;
+  left: 30%;
 }
 
 
@@ -57,7 +56,57 @@ body {
 }
 
 #score {
-  z-index: -1;
   visibility: hidden;
   color: white;
+}
+
+.buttons {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.buttons p {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+}
+
+button {
+  font-weight: bold;
+  background-color: white;
+  border: none;
+  color: black;
+  padding: 25px 48px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 3px;
+  cursor: pointer;
+}
+
+.play-pause {
+  font-size: 36px;
+  color: white;
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+}
+
+#pause {
+  visibility: hidden;
+}
+
+#play, #pause {
+  position: absolute;
+  opacity: 50%;
+}
+
+#play:hover, #pause:hover {
+  opacity: 100%;
 }
