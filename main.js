@@ -71,12 +71,14 @@ function aiMovement() {
 }
 
 // initial positions of paddles and ball
+ball.style.left = paddleWidth + px;
+ball.style.top = num(leftPaddle.style.top) + (paddleHeight / 2) + px;
 leftPaddle.style.top = height / 2 - 100 + px;
 rightPaddle.style.top = height / 2 - 100 + px;
 
-// ball speed in both directions
-let speedX;
-let speedY;
+// default ball speeds
+let speedX = 3;
+let speedY = 3;
 
 // tracks scores for each player and shows text
 function scored(loc) {
@@ -86,14 +88,15 @@ function scored(loc) {
     score.style.visibility = 'hidden';
   }, 1000);
 
-  if (loc === 'left') rightScore.innerHTML = Number(rightScore.innerHTML) + 1;
-  else if (loc === 'right') leftScore.innerHTML = Number(leftScore.innerHTML) + 1;
-
-  // reset positions
-  leftPaddle.style.top = height / 2 - 100 + px;
-  rightPaddle.style.top = height / 2 - 100 + px;
-  ball.style.left = width / 2 + px;
-  ball.style.top = height / 2 - 100 + px;
+  if (loc === 'left') {
+    rightScore.innerHTML = Number(rightScore.innerHTML) + 1;
+    ball.style.left = paddleWidth + px;
+    ball.style.top = num(leftPaddle.style.top) + (paddleHeight / 2) + px;
+  } else if (loc === 'right') {
+    leftScore.innerHTML = Number(leftScore.innerHTML) + 1;
+    ball.style.left = width - paddleWidth - ballRadius + px;
+    ball.style.top = num(rightPaddle.style.top) + (paddleHeight / 2) + px;
+  }
   speedX *= -1;
 }
 
@@ -163,6 +166,7 @@ hard.addEventListener('click', () => {
   speedY = 4;
 });
 
+// play pause button
 play.addEventListener('click', () => {
   const keyInterval = setInterval(keyPress, 5);
   const aiInterval = setInterval(aiMovement, 5);
