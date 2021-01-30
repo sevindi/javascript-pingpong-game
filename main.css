@@ -1,111 +1,116 @@
+@font-face {
+  font-family: BinancePlex;
+  src: url("BinancePlex-SemiBold.otf") format("opentype");
+}
+
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-	min-height: 100vh;
-	min-width: 100vw;
-	background-color: black;
-	overflow: hidden;
+  font-family: BinancePlex;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: rgb(20, 21, 26);
+  overflow: hidden;
 }
 
 .paddle {
-	width: 15px;
-	height: 200px;
-	background-color: white;
+  width: 15px;
+  height: 200px;
+  background-color: rgb(202, 206, 211);
 }
 
 #leftPaddle {
-	float: left;
-	position: relative;
+  float: left;
+  position: relative;
 }
 
 #rightPaddle {
-	float: right;
-	position: relative;
+  float: right;
+  position: relative;
 }
 
 #ball {
-	width: 20px;
-	height: 20px;
-	background-color: white;
-	border-radius: 50%;
-	position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(202, 206, 211);
+  border-radius: 50%;
+  position: absolute;
 }
 
 #scoreboard {
-	width: 50%;
-	height: 20%;
-	margin: auto;
-	text-align: center;
-	font-size: 750%;
+  width: 50%;
+  height: 20%;
+  margin: auto;
+  text-align: center;
+  font-size: 750%;
 }
 
 #leftScore {
-	color: white;
-	float: left;
+  color: rgb(202, 206, 211);
+  float: left;
 }
 
 #rightScore {
-	color: white;
-	float: right;
+  color: rgb(202, 206, 211);
+  float: right;
 }
 
 #score {
-	visibility: hidden;
-	color: white;
+  visibility: hidden;
+  color: rgb(202, 206, 211);
 }
 
 .buttons {
-	position: absolute;
-	top: 35%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .buttons p {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	font-size: 20px;
-	color: white;
-	text-align: center;
-	margin-top: 10px;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  margin-top: 10px;
 }
 
 button {
-	font-weight: bold;
-	background-color: white;
-	border: none;
-	color: black;
-	padding: 25px 48px;
-	text-align: center;
-	text-decoration: none;
-	font-size: 16px;
-	margin: 3px;
-	cursor: pointer;
+  font-weight: bold;
+  background-color: rgb(202, 206, 211);
+  border: none;
+  color: black;
+  padding: 25px 48px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 3px;
+  cursor: pointer;
 }
 
 .play-pause {
-	font-size: 36px;
-	color: white;
-	position: absolute;
-	top: 95%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	padding: 10px;
+  font-size: 36px;
+  color: rgb(202, 206, 211);
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
 }
 
 #pause {
-	visibility: hidden;
+  visibility: hidden;
 }
 
 #play,
 #pause {
-	position: absolute;
-	opacity: 50%;
+  position: absolute;
+  opacity: 50%;
 }
 
 #play:hover,
 #pause:hover {
-	opacity: 100%;
+  opacity: 100%;
 }
